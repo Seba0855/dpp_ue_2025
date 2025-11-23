@@ -1,4 +1,6 @@
 import math
+from collections import Counter
+import string
 
 """
 is_palindrome(text: str) -> bool - sprawdza, czy dany ciąg znaków jest palindromem
@@ -25,53 +27,55 @@ Jeśli n < 2, zwraca False.
 
 
 def is_palindrome(text: str) -> bool:
-    return text == text[::-1]
+    normalized = ''.join(c.lower() for c in text if c.isalnum())
+    return normalized == normalized[::-1]
 
 
 def fibonacci(n: int) -> int:
-    if n < 2:
-        return n
-    return fibonacci(n - 1) + fibonacci(n - 2)
+    if n < 0:
+        raise ValueError("n must be non-negative")
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
 
 
 def count_vowels(text: str) -> int:
-    vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y']
-
-    count = 0
-    for char in text:
-        if char in vowels:
-            count += 1
-    return count
+    vowels = "aeiouyąęóAEIOUYĄĘÓ"
+    return sum(c in vowels for c in text)
 
 
 def calculate_discount(price: float, discount: float) -> float:
-    return price * (1 + discount / 100)
+    if not (0 <= discount <= 1):
+        raise ValueError("discount must be between 0 and 1")
+    return price * (1 - discount)
 
 
-def flatten_list(nested_list: list) -> list:
+def flatten_list(nested_list):
     result = []
     for item in nested_list:
         if isinstance(item, list):
-            result += flatten_list(item)
+            result.extend(flatten_list(item))
+        else:
+            result.append(item)
     return result
 
 
-def word_frequencies(text: str) -> dict:
-    word_frequencies = {}
-    for word in text.split():
-        word_frequencies[word] = word_frequencies.get(word, 0) + 1
-    return word_frequencies
+def word_frequencies(text: str):
+    translator = str.maketrans('', '', string.punctuation)
+    normalized = text.lower().translate(translator)
+    words = normalized.split()
+    return dict(Counter(words))
 
 
 def is_prime(n: int) -> bool:
-    if n < 2:
+    if n <= 1:
         return False
     if n == 2:
         return True
     if n % 2 == 0:
         return False
-    sqrt_n = int(math.sqrt(n)) + 1
-    for i in range(3, sqrt_n, 2):
+    for i in range(3, int(n ** 0.5) + 1, 2):
         if n % i == 0:
             return False
     return True
