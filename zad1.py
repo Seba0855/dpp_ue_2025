@@ -28,3 +28,9 @@ def is_palindrome(text: str) -> bool:
     return text == text[::-1]
 
 
+def fibonacci(n: int) -> int:
+    if n < 2:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+
