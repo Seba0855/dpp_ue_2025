@@ -43,3 +43,8 @@ def count_vowels(text: str) -> int:
             count += 1
     return count
 
+
+def calculate_discount(price: float, discount: float) -> float:
+    return price * (1 + discount / 100)
+
+
