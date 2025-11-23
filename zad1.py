@@ -34,3 +34,12 @@ def fibonacci(n: int) -> int:
     return fibonacci(n - 1) + fibonacci(n - 2)
 
 
+def count_vowels(text: str) -> int:
+    vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y']
+
+    count = 0
+    for char in text:
+        if char in vowels:
+            count += 1
+    return count
+
