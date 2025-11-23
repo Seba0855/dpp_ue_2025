@@ -56,4 +56,10 @@ def flatten_list(nested_list: list) -> list:
     return result
 
 
+def word_frequencies(text: str) -> dict:
+    word_frequencies = {}
+    for word in text.split():
+        word_frequencies[word] = word_frequencies.get(word, 0) + 1
+    return word_frequencies
+
 
