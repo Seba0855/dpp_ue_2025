@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from database import Base, get_db
 from main import app
 import models
+from auth import hash_password, create_access_token
 
 
 # Create test database
@@ -38,6 +39,46 @@ def db():
 def client(db):
     """Create a test client"""
     return TestClient(app)
+
+
+@pytest.fixture
+def admin_user(db):
+    """Create admin user for testing"""
+    user = models.User(
+        username="admin",
+        hashed_password=hash_password("admin123"),
+        roles=["ROLE_ADMIN", "ROLE_USER"]
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+@pytest.fixture
+def regular_user(db):
+    """Create regular user for testing"""
+    user = models.User(
+        username="user",
+        hashed_password=hash_password("user123"),
+        roles=["ROLE_USER"]
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+@pytest.fixture
+def admin_token(admin_user):
+    """Generate JWT token for admin user"""
+    return create_access_token(admin_user.username, admin_user.roles)
+
+
+@pytest.fixture
+def user_token(regular_user):
+    """Generate JWT token for regular user"""
+    return create_access_token(regular_user.username, regular_user.roles)
 
 
 @pytest.fixture

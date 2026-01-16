@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ConfigDict
-from typing import Optional
+from typing import Optional, List
 
 
 class MovieBase(BaseModel):
@@ -82,3 +82,34 @@ class TagUpdate(BaseModel):
 class Tag(TagBase):
     id: int
     model_config = ConfigDict(from_attributes=True)
+
+
+# User schemas
+class UserBase(BaseModel):
+    username: str
+
+
+class UserCreate(UserBase):
+    password: str
+    roles: Optional[List[str]] = []
+
+
+class UserResponse(UserBase):
+    id: int
+    roles: List[str]
+    model_config = ConfigDict(from_attributes=True)
+
+
+class LoginData(BaseModel):
+    username: str
+    password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class UserDetails(BaseModel):
+    username: str
+    roles: List[str]
