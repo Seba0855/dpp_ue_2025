@@ -1,0 +1,5 @@
+opencv-python
+ultralytics
+easyocr
+np
+fast_plate_ocr
