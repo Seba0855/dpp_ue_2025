@@ -1,0 +1,13 @@
+train: images/train/images
+val: images/valid/images
+test: images/test/images
+
+nc: 1
+names: ['license plate']
+
+roboflow:
+  workspace: sebastian-tvmcf
+  project: license-plate-detection-rjx9p
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/sebastian-tvmcf/license-plate-detection-rjx9p/dataset/1
